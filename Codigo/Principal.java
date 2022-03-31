@@ -6,5 +6,4 @@ public class Principal{
         Simulacao sim = new Simulacao();
         sim.executarSimulacao(40);
     }
-    }
 }
