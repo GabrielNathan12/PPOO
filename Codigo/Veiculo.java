@@ -15,7 +15,7 @@ public class Veiculo {
     public Veiculo(Localizacao localizacao) {
         this.localizacaoAtual = localizacao;
         localizacaoDestino = null;
-        imagem = new ImageIcon(getClass().getResource("Imagens/veiculo.jpg")).getImage();
+        imagem = new ImageIcon(getClass().getResource("Imagens/onibus.jpg")).getImage();
     }
 
     public Localizacao getLocalizacaoAtual() {
