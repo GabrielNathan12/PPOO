@@ -52,9 +52,13 @@ public class Simulacao {
                 new Localizacao(rand.nextInt(largura),rand.nextInt(altura))
             );
             
-            Semaforo semaforo = new Semaforo(
-                new Localizacao(rand.nextInt(largura), rand.nextInt(altura))
-            );
+
+            for (int y = 0 ; y < 5 ; y++){
+                Semaforo semaforo = new Semaforo(
+                    new Localizacao(rand.nextInt(largura), rand.nextInt(altura))
+                );
+            
+
           //  Veiculo onibus = new Veiculo(
             //    new Localizacao(rand.nextInt(largura), rand.nextInt(altura))
             //);
@@ -69,8 +73,9 @@ public class Simulacao {
             mapa.adicionarItem(obstaculo);
             mapa.adicionarItem(pedestre);
             mapa.adicionarItem(semaforo);
-            
             //mapa.adicionarItem(onibus);
+            
+            }
         }
         veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());//Define a posicao destino aleatoriamente
         

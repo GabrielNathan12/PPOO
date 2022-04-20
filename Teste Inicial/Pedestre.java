@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Pedestre extends Item {
     public Pedestre(Localizacao localizacao) {
-        super(localizacao, "imagens/1056399.png");
+        super(localizacao, "imagens/Pedestre.png");
     }
 
     public void movimentar() {
