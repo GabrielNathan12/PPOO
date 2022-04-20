@@ -1,4 +1,4 @@
-package Codigo;
+// package simulacao;
 
 import java.util.Random;
 
@@ -19,6 +19,7 @@ public class Localizacao {
     public Localizacao(int x, int y) {
         this.x = x;
         this.y = y;
+        System.out.println(x + " " + y);
     }
 
     public int getX() {
@@ -36,7 +37,7 @@ public class Localizacao {
      */
     public Localizacao proximaLocalizacao(Localizacao localizacaoDestino){
         if(localizacaoDestino.equals(this)){//Verifica se já alcancou o destino
-            return localizacaoDestino;
+            return null;
         }else{
             int destX = localizacaoDestino.getX();
             int destY = localizacaoDestino.getY();

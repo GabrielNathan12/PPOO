@@ -1,7 +1,7 @@
-package Codigo;
+// package simulacao;
+//import javax.swing.ImageIcon;
 import java.awt.*;
 import javax.swing.*;
-
 /**
  * Fornece a visualizacao da simulacao
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
@@ -17,6 +17,7 @@ public class JanelaSimulacao extends JFrame{
         setTitle("Simulator");
         setSize(1000,1000);
         setVisible(true);
+        setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
     
@@ -28,9 +29,9 @@ public class JanelaSimulacao extends JFrame{
         for(int i = 0; i < mapa.getAltura(); i++){
             for(int j = 0; j < mapa.getLargura(); j++){
                 if(mapa.getItem(i, j) != null){//Se existir algum objeto na posicao (i,j)
-                    Veiculo veiculo = mapa.getItem(i, j);
-                    Localizacao localizacao = veiculo.getLocalizacaoAtual();
-                    visaoMapa.desenharImagem(localizacao.getX(), localizacao.getY(), veiculo.getImagem());
+                    Item item = mapa.getItem(i, j);
+                    Localizacao localizacao = item.getLocalizacaoAtual();
+                    visaoMapa.desenharImagem(localizacao.getX(), localizacao.getY(), item.getImagem());
                 }
             }
         }
@@ -59,6 +60,7 @@ public class JanelaSimulacao extends JFrame{
          */
         public VisaoMapa(int largura, int altura)
         {
+
             larguraMapa = largura;
             alturaMapa = altura;
             setBackground(Color.white);
@@ -78,8 +80,9 @@ public class JanelaSimulacao extends JFrame{
          * Prepara para um novo ciclo de exibicao. Uma vez que o componente
          * pode ser redimensionado, calcula o "fator de escala" novamente.
          */
+
         public void preparePaint()
-        {
+        {   
             if(!tamanho.equals(getSize())) {  // se o tamanho mudou...
                 tamanho = getSize();
                 imagemMapa = visaoMapa.createImage(tamanho.width, tamanho.height);
@@ -94,17 +97,26 @@ public class JanelaSimulacao extends JFrame{
                     yScale = VIEW_SCALING_FACTOR;
                 }
             }
-            g.setColor(Color.white);
-            g.fillRect(0, 0, tamanho.width, tamanho.height);
+            
             g.setColor(Color.gray);
+
+            g.fillRect(0, 0, tamanho.width, tamanho.height);
+
+            g.setColor(Color.black);
             for(int i = 0, x = 0; x < tamanho.width; i++, x = i * xScale) {
-                g.drawLine(x, 0, x, tamanho.height - 1);
+                g.fillRect(x + 10, 0, 10, tamanho.height -1 );
             }
+
+            g.setColor(Color.black);
+
             for(int i = 0, y = 0; y < tamanho.height; i++, y = i * yScale) {
-                g.drawLine(0, y, tamanho.width - 1, y);
+                g.fillRect(0, y + 10, tamanho.width - 1, 10);
             }
+
+            g.setColor(Color.red);
+            g.fillRect(0, 0, 50, 50);
         }
-        
+    
         /**
          * Desenha a imagem para um determinado item.
          */
@@ -118,10 +130,17 @@ public class JanelaSimulacao extends JFrame{
          * O componente VisaoMapa precisa ser reexibido. Copia a
          * imagem interna para a tela.
          */
+ 
+        //ImageIcon fundo = new ImageIcon("Imagens/1042263.png");
+        //imagemMapa = fundo.getImage();
+
         public void paintComponent(Graphics g)
-        {
+       {   
+            super.paintComponent(g);
+            Graphics2D  graficos = (Graphics2D)g;
+
             if(imagemMapa != null) {
-                g.drawImage(imagemMapa, 0, 0, null);
+                graficos.drawImage(imagemMapa, 0, 0, null);
             }
         }
     }
