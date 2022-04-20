@@ -29,9 +29,9 @@ public class Simulacao {
         int altura = mapa.getAltura();
         
         veiculo = new Veiculo(new Localizacao(0, 0));//Cria um veiculo em uma posicao aleatoria
-        veiculo2 = new Veiculo(new Localizacao(0, 0));
-        veiculo3 = new Veiculo(new Localizacao(0, 0));
-        veiculo4 = new Veiculo(new Localizacao(0, 0));
+        veiculo2 = new Veiculo(new Localizacao(5, 5));
+        veiculo3 = new Veiculo(new Localizacao(10, 10));
+        veiculo4 = new Veiculo(new Localizacao(15, 15));
         
         pontos = new ArrayList<Ponto>();
         obstaculos = new ArrayList<Item>();
@@ -94,15 +94,16 @@ public class Simulacao {
             pedestresSeMovem();
             janelaSimulacao.executarAcao();
             esperar(500);
+            
         }        
     }
 
     private void executarUmPasso() {
         
-        mapa.removerItem(veiculo);
-        mapa.removerItem(veiculo2);
-        mapa.removerItem(veiculo3);
-        mapa.removerItem(veiculo4);
+        //mapa.removerItem(veiculo);
+        //mapa.removerItem(veiculo2);
+        //mapa.removerItem(veiculo3);
+        //mapa.removerItem(veiculo4);
 
         if (veiculo.comparePosition(pontos.get(pontoDestino-1))) {
             mapa.adicionarItem(pontos.get(pontoDestino-1));
@@ -128,25 +129,30 @@ public class Simulacao {
         if (!andando) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            veiculo.executarAcao();
+           // esperarSemaforo(1000);
+            //veiculo.executarAcao();
         }
 
         if (!andando1) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo2.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            veiculo2.executarAcao();
+            //esperarSemaforo(1000);
+            //veiculo2.executarAcao();
         }
 
         if (!andando2) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo3.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            veiculo3.executarAcao();
+            //esperarSemaforo(1000);
+            //veiculo3.executarAcao();
         }
 
         if (!andando3) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo4.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            veiculo4.executarAcao();
+            //esperarSemaforo(1000);
+            //veiculo4.executarAcao();
+            
         }
 
         mapa.adicionarItem(veiculo);
@@ -167,6 +173,14 @@ public class Simulacao {
     private void esperar(int milisegundos){
         try{
             Thread.sleep(milisegundos);
+        }catch(InterruptedException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void esperarSemaforo(int segundos){
+        try{
+            Thread.sleep(segundos);
         }catch(InterruptedException e){
             System.out.println(e.getMessage());
         }
