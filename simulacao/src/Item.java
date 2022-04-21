@@ -1,7 +1,7 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-public abstract class  Item {
+public class  Item {
     private Image imagem;
     protected Localizacao localizacaoAtual;
 

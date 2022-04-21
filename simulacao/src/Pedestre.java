@@ -28,5 +28,9 @@ public class Pedestre extends Item {
         return false;
     }
 
+    @Override
+        public String toString(){
+            return "Pedestre no Ponto : ";
+        }
 
 }

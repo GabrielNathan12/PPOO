@@ -15,13 +15,15 @@ public class Veiculo extends Item {
     private Random rand;
 
     private int passageirosABordo;
+    private int pontoDestino;
     
-    public Veiculo(Localizacao localizacao) {
+    public Veiculo(Localizacao localizacao , int pontoDestino) {
         super(localizacao, "Imagens/130262.png");
         localizacaoDestino = null;
         contador = 0;
         rand = new Random();
         passageirosABordo = rand.nextInt(5);
+        this.pontoDestino = pontoDestino;
     }
     
     public int getPassageirosAbordo(){
@@ -30,6 +32,13 @@ public class Veiculo extends Item {
 
     public Localizacao getLocalizacaoDestino() {
         return localizacaoDestino;
+    }
+    public int getPontoDestino() {
+        return pontoDestino;
+    }
+
+    public void setPontoDestino(int pontoDestino) {
+        this.pontoDestino = pontoDestino;
     }
 
     public void setLocalizacaoDestino(Localizacao localizacaoDestino) {
