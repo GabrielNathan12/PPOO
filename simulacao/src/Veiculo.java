@@ -10,10 +10,9 @@ import java.util.Random;
  */
 public class Veiculo extends Item {
     private Localizacao localizacaoDestino;
-    private int contador, contadorSemaforo;
+    private int contador, contadorSemaforo , contadorPontosPassados;
     private static int[][] semaforos = new int[30][30];
     private Random rand;
-
 
     private int passageirosABordo;
     
@@ -36,7 +35,11 @@ public class Veiculo extends Item {
     public void setLocalizacaoDestino(Localizacao localizacaoDestino) {
         this.localizacaoDestino = localizacaoDestino;
     }
-    
+
+    public int getContadorPontosPassados() {
+        return contadorPontosPassados;
+    }
+
     public boolean executarAcao(){
         Localizacao destino = getLocalizacaoDestino();
         int x = localizacaoAtual.getX();
@@ -53,6 +56,7 @@ public class Veiculo extends Item {
                 else {
                     contador++;
                     if(contador == 10){
+                        contadorPontosPassados++;
                         return false;
                     }
 
@@ -78,6 +82,7 @@ public class Veiculo extends Item {
             semaforos[x][y] = 1;
         }
     }
+
     @Override
     public String toString(){
         

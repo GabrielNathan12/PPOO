@@ -31,7 +31,7 @@ public class Simulacao {
         pedestres = new ArrayList<Pedestre>();
         semaforos = new ArrayList<Semaforo>();
         veiculos = new ArrayList<Veiculo>();
-        
+
         instanciarPontosOnibus();
         intanciarObstaculos();
         instanciarSemaforos();
@@ -56,7 +56,7 @@ public class Simulacao {
                 colocarObstaculos();
                 colocarPontos();
                 janelaSimulacao.executarAcao();
-                esperar(300);
+                esperar(100);
             }
         }       
     }
@@ -73,7 +73,7 @@ public class Simulacao {
 
     private void intanciarPedrestre(){
 
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 5; x++) {
             Pedestre pedestre = new Pedestre(
                 new Localizacao(rand.nextInt(largura),rand.nextInt(altura))
             );
@@ -126,9 +126,17 @@ public class Simulacao {
             boolean andando = onibus.executarAcao();
 
             if (!andando) {
-                if (pontoDestino == pontos.size()) pontoDestino = 0;
-                onibus.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());      
-                gerarRelatorioDeRota(cont);
+               if (pontoDestino == pontos.size()) pontoDestino = 0;
+                if (onibus.getContadorPontosPassados() >= pontos.size() * 3) {
+
+                    pontoDestino++;
+                    onibus.setLocalizacaoDestino(new Localizacao(29, 29));
+
+                } else {
+
+                    onibus.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
+
+                }
             }
 
             cont++;
