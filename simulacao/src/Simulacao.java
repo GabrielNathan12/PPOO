@@ -15,15 +15,14 @@ public class Simulacao {
     private JanelaSimulacao janelaSimulacao;
     private Mapa mapa;
     private ArrayList<Ponto> pontos;
-    private ArrayList<Item> obstaculos;
+    private ArrayList<Obstaculo> obstaculos;
     private ArrayList<Pedestre> pedestres;
     private ArrayList<Semaforo> semaforos;
     private Random rand;
     private int pontoDestino;
     private int largura;
     private int altura;
-    //private ArrayList<Veiculo> Onibus;
-
+    
     public Simulacao() {
         rand = new Random();
         mapa = new Mapa();
@@ -34,21 +33,18 @@ public class Simulacao {
         veiculo2 = new Veiculo(new Localizacao(5, 5));
         veiculo3 = new Veiculo(new Localizacao(10, 10));
         veiculo4 = new Veiculo(new Localizacao(15, 15));
-        
+
         pontos = new ArrayList<Ponto>();
-        obstaculos = new ArrayList<Item>();
+        obstaculos = new ArrayList<Obstaculo>();
         pedestres = new ArrayList<Pedestre>();
         semaforos = new ArrayList<Semaforo>();
-
-       // Onibus = new ArrayList<Veiculo>();
 
         for (int x = 0; x < 10; x++) {
             Ponto ponto = new Ponto(
                 new Localizacao(rand.nextInt(largura),rand.nextInt(altura))
             );
-            Item obstaculo = new Item(
-                new Localizacao(rand.nextInt(largura),rand.nextInt(altura)),
-                "Imagens/1141794.png"
+            Obstaculo obstaculo = new Obstaculo(
+                new Localizacao(rand.nextInt(largura),rand.nextInt(altura))
             );
             Pedestre pedestre = new Pedestre(
                 new Localizacao(rand.nextInt(largura),rand.nextInt(altura))
@@ -59,13 +55,7 @@ public class Simulacao {
                 Semaforo semaforo = new Semaforo(
                     new Localizacao(rand.nextInt(largura), rand.nextInt(altura))
                 );
-            
 
-          //  Veiculo onibus = new Veiculo(
-            //    new Localizacao(rand.nextInt(largura), rand.nextInt(altura))
-            //);
-
-            //Onibus.add(onibus);
             pontos.add(ponto);
             obstaculos.add(obstaculo);
             pedestres.add(pedestre);
@@ -75,7 +65,6 @@ public class Simulacao {
             mapa.adicionarItem(obstaculo);
             mapa.adicionarItem(pedestre);
             mapa.adicionarItem(semaforo);
-            //mapa.adicionarItem(onibus);
             
             }
         }
@@ -92,18 +81,17 @@ public class Simulacao {
         janelaSimulacao = new JanelaSimulacao(mapa);
     }
     
-    public void executarSimulacao(int numPassos){
+    public final void executarSimulacao(int numPassos){
         janelaSimulacao.executarAcao();
         for (int i = 0; i < numPassos; i++) {
             executarUmPasso();
-            //pedestresSeMovem();
             colocarObstaculos();
             colocarPontos();
             colocarSemaforo();
             janelaSimulacao.executarAcao();
             esperar(500);
-           
-        }        
+            
+        }       
     }
 
     private void executarUmPasso() {
@@ -112,19 +100,19 @@ public class Simulacao {
         //mapa.removerItem(veiculo2);
         //mapa.removerItem(veiculo3);
         //mapa.removerItem(veiculo4);
-   
+
         if (veiculo.comparePosition(pontos.get(pontoDestino-1))) {
             mapa.adicionarItem(pontos.get(pontoDestino-1));
         }
-
+        else 
         if (veiculo2.comparePosition(pontos.get(pontoDestino-1))) {
             mapa.adicionarItem(pontos.get(pontoDestino-1));
         }
-
+        else
         if (veiculo3.comparePosition(pontos.get(pontoDestino-1))) {
             mapa.adicionarItem(pontos.get(pontoDestino-1));
         }
-
+        else
         if (veiculo4.comparePosition(pontos.get(pontoDestino-1))) {
             mapa.adicionarItem(pontos.get(pontoDestino-1));
         }
@@ -137,28 +125,28 @@ public class Simulacao {
         if (!andando) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-           // esperarSemaforo(1000);
+         
             veiculo.executarAcao();
-        }
+        }else
 
         if (!andando1) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo2.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            //esperarSemaforo(1000);
+         
             veiculo2.executarAcao();
-        }
+        }else
 
         if (!andando2) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo3.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            //esperarSemaforo(1000);
+           
             veiculo3.executarAcao();
-        }
+        }else
 
         if (!andando3) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo4.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            //esperarSemaforo(1000);
+            
             veiculo4.executarAcao();
             
         }
@@ -170,17 +158,16 @@ public class Simulacao {
 
     }
 
-   /* public void pedestresSeMovem() {
-        for (Pedestre pedestre : pedestres) {
-            mapa.removerItem(pedestre);
-            pedestre.movimentar();
-            mapa.adicionarItem(pedestre);
+  /*  public void onibusSeMovem() {
+        for (Veiculo oni : Onibus) {
+            mapa.removerItem(oni);
+            oni.executarAcao();
+            mapa.adicionarItem(oni);
         }
     }
-    */
-
+*/
     public void colocarObstaculos(){
-        for(Item obs : obstaculos ){
+        for(Obstaculo obs : obstaculos ){
             mapa.removerItem(obs);
             mapa.adicionarItem(obs);
         }
@@ -222,12 +209,6 @@ public class Simulacao {
         }catch(InterruptedException e){
             System.out.println(e.getMessage());
         }
-    }
-    public int getAltura(){
-        return altura;
-    }
-    public int getLargura(){
-        return largura;
     }
     
 }

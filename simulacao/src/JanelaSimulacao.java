@@ -38,7 +38,6 @@ public class JanelaSimulacao extends JFrame{
         }
         visaoMapa.repaint();
     }
-
     /**
      * Fornece uma visualizacao grafica do mapa. Esta eh 
      * uma classe interna que define os componentes da GUI.
@@ -64,7 +63,7 @@ public class JanelaSimulacao extends JFrame{
 
             larguraMapa = largura;
             alturaMapa = altura;
-            setBackground(Color.white);
+            setBackground(Color.black);
             tamanho = new Dimension(0, 0);
         }
 
