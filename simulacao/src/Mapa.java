@@ -1,3 +1,4 @@
+
 // package simulacao;
 
 /**
@@ -53,5 +54,4 @@ public class Mapa {
     public int getAltura() {
         return altura;
     }
-    
 }

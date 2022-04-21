@@ -1,13 +1,14 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-public class  Item {
+public abstract class  Item {
     private Image imagem;
     private Localizacao localizacaoAtual;
 
     public Item(Localizacao localizacao, String nomeImg) {
         this.localizacaoAtual = localizacao;
         this.imagem = new ImageIcon(getClass().getResource(nomeImg)).getImage();
+
     }
 
     public Localizacao getLocalizacaoAtual() {
@@ -35,7 +36,7 @@ public class  Item {
         return false;
     }
 
-    public boolean comparePositionSe(Semaforo i) {
+    public boolean comparePositionSem(Semaforo i) {
         int x1 = i.getLocalizacaoAtual().getX();
         int y1 = i.getLocalizacaoAtual().getY();
         int x2 = this.getLocalizacaoAtual().getX();
@@ -48,7 +49,7 @@ public class  Item {
         return false;
     }
 
-    public boolean comparePositionPo(Ponto i) {
+    public boolean comparePositionPos(Ponto i) {
         int x1 = i.getLocalizacaoAtual().getX();
         int y1 = i.getLocalizacaoAtual().getY();
         int x2 = this.getLocalizacaoAtual().getX();

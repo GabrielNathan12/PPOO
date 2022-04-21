@@ -12,7 +12,8 @@ public class Veiculo extends Item {
         super(localizacao, "Imagens/130262.png");
         localizacaoDestino = null;
     }
-
+    
+   
     public Localizacao getLocalizacaoDestino() {
         return localizacaoDestino;
     }
@@ -33,4 +34,5 @@ public class Veiculo extends Item {
 
         return false;
     }
+
 }

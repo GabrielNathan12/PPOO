@@ -34,4 +34,5 @@ public class Pedestre extends Item {
                 break;
         }
     }
+
 }

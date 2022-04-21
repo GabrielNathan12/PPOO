@@ -2,6 +2,7 @@
 //import javax.swing.ImageIcon;
 import java.awt.*;
 import javax.swing.*;
+
 /**
  * Fornece a visualizacao da simulacao
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
@@ -145,6 +146,7 @@ public class JanelaSimulacao extends JFrame{
                 graficos.drawImage(imagemMapa, 0, 0, null);
             }
         }
+
     }
     
 }
