@@ -3,6 +3,8 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 /**
  * Responsavel pela simulacao.
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
@@ -32,9 +34,9 @@ public class Simulacao {
         altura = mapa.getAltura();
         
         veiculo = new Veiculo(new Localizacao(0, 0));//Cria um veiculo em uma posicao aleatoria
-        veiculo2 = new Veiculo(new Localizacao(5, 5));
-        veiculo3 = new Veiculo(new Localizacao(10, 10));
-        veiculo4 = new Veiculo(new Localizacao(15, 15));
+        veiculo2 = new Veiculo(new Localizacao(1, 1));
+        veiculo3 = new Veiculo(new Localizacao(2, 2));
+        veiculo4 = new Veiculo(new Localizacao(3, 3));
 
         pontos = new ArrayList<Ponto>();
         obstaculos = new ArrayList<Obstaculo>();
@@ -79,14 +81,17 @@ public class Simulacao {
     }
 
     private void intanciarPedrestre(){
+
         for (int x = 0; x < 10; x++) {
             Pedestre pedestre = new Pedestre(
                 new Localizacao(rand.nextInt(largura),rand.nextInt(altura))
             );
+            pedestre.setLocalizacaoDestino(pontos.get(rand.nextInt(10)).getLocalizacaoAtual());
             pedestres.add(pedestre);
             mapa.adicionarItem(pedestre);
-           
         }
+        
+    
     }
 
     private void instanciarPontosOnibus(){
@@ -139,6 +144,11 @@ public class Simulacao {
 
         }
 
+        for (Pedestre pedestre: pedestres) {
+            pedestre.executarAcao();
+        }
+
+        
         boolean andando = veiculo.executarAcao();
         boolean andando1 = veiculo2.executarAcao();
         boolean andando2 = veiculo3.executarAcao();
@@ -147,31 +157,29 @@ public class Simulacao {
         if (!andando) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            Colisao();
-            veiculo.executarAcao();
-        }else
-
+            //veiculo.executarAcao();
+            
+        }
+        
         if (!andando1) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo2.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            Colisao();
-            veiculo2.executarAcao();
-        }else
+            //veiculo2.executarAcao();
+        }
 
         if (!andando2) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo3.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            Colisao();
-            veiculo3.executarAcao();
-        }else
-
+            //veiculo3.executarAcao();
+        }
+        
         if (!andando3) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo4.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            Colisao();
-            veiculo4.executarAcao();
+            //veiculo4.executarAcao();
             
         }
+
         mapa.adicionarItem(veiculo);
         mapa.adicionarItem(veiculo2);
         mapa.adicionarItem(veiculo3);
@@ -201,14 +209,6 @@ public class Simulacao {
         }
     }
 
-    private void Colisao(){
-        if(veiculo.comparePositionPos(pontos.get(pontoDestino-1))){
-            esperar(5000);
-        }
-        else if(veiculo.comparePositionSem(semaforos.get(pontoDestino -1))){
-            esperar(4000);
-        }
-    }
     private void esperar(int milisegundos){
         try{
             Thread.sleep(milisegundos);

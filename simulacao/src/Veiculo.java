@@ -1,3 +1,4 @@
+
 // package simulacao;
 
 
@@ -7,13 +8,14 @@
  */
 public class Veiculo extends Item {
     private Localizacao localizacaoDestino;
+    private int contador;
 
     public Veiculo(Localizacao localizacao) {
         super(localizacao, "Imagens/130262.png");
         localizacaoDestino = null;
+        contador = 0;
     }
     
-   
     public Localizacao getLocalizacaoDestino() {
         return localizacaoDestino;
     }
@@ -27,12 +29,24 @@ public class Veiculo extends Item {
         if(destino != null){
             Localizacao proximaLocalizacao = getLocalizacaoAtual().proximaLocalizacao(localizacaoDestino);
             if (proximaLocalizacao != null) {
+                contador = 0;
                 setLocalizacaoAtual(proximaLocalizacao);
                 return true;
             }
-        }
+            else {
+                contador++;
+                if(contador == 10){
+                    return false;
+                }
 
+                return true;
+            }
+        }
         return false;
     }
 
+    @Override
+    public String toString(){
+        return Veiculo.class.getName();
+    }
 }
