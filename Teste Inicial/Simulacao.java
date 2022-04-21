@@ -18,15 +18,17 @@ public class Simulacao {
     private ArrayList<Item> obstaculos;
     private ArrayList<Pedestre> pedestres;
     private ArrayList<Semaforo> semaforos;
-
+    private Random rand;
     private int pontoDestino;
+    private int largura;
+    private int altura;
     //private ArrayList<Veiculo> Onibus;
 
     public Simulacao() {
-        Random rand = new Random();
+        rand = new Random();
         mapa = new Mapa();
-        int largura = mapa.getLargura();
-        int altura = mapa.getAltura();
+        largura = mapa.getLargura();
+        altura = mapa.getAltura();
         
         veiculo = new Veiculo(new Localizacao(0, 0));//Cria um veiculo em uma posicao aleatoria
         veiculo2 = new Veiculo(new Localizacao(5, 5));
@@ -78,7 +80,10 @@ public class Simulacao {
             }
         }
         veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());//Define a posicao destino aleatoriamente
-        
+        veiculo2.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
+        veiculo3.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
+        veiculo4.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
+
         mapa.adicionarItem(veiculo);//Inicializando o mapa com o veículo
         mapa.adicionarItem(veiculo2);
         mapa.adicionarItem(veiculo3);
@@ -91,10 +96,13 @@ public class Simulacao {
         janelaSimulacao.executarAcao();
         for (int i = 0; i < numPassos; i++) {
             executarUmPasso();
-            pedestresSeMovem();
+            //pedestresSeMovem();
+            colocarObstaculos();
+            colocarPontos();
+            colocarSemaforo();
             janelaSimulacao.executarAcao();
             esperar(500);
-            
+           
         }        
     }
 
@@ -104,7 +112,7 @@ public class Simulacao {
         //mapa.removerItem(veiculo2);
         //mapa.removerItem(veiculo3);
         //mapa.removerItem(veiculo4);
-
+   
         if (veiculo.comparePosition(pontos.get(pontoDestino-1))) {
             mapa.adicionarItem(pontos.get(pontoDestino-1));
         }
@@ -130,28 +138,28 @@ public class Simulacao {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
            // esperarSemaforo(1000);
-            //veiculo.executarAcao();
+            veiculo.executarAcao();
         }
 
         if (!andando1) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo2.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
             //esperarSemaforo(1000);
-            //veiculo2.executarAcao();
+            veiculo2.executarAcao();
         }
 
         if (!andando2) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo3.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
             //esperarSemaforo(1000);
-            //veiculo3.executarAcao();
+            veiculo3.executarAcao();
         }
 
         if (!andando3) {
             if (pontoDestino == pontos.size()) pontoDestino = 0;
             veiculo4.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
             //esperarSemaforo(1000);
-            //veiculo4.executarAcao();
+            veiculo4.executarAcao();
             
         }
 
@@ -162,14 +170,36 @@ public class Simulacao {
 
     }
 
-    public void pedestresSeMovem() {
+   /* public void pedestresSeMovem() {
         for (Pedestre pedestre : pedestres) {
             mapa.removerItem(pedestre);
             pedestre.movimentar();
             mapa.adicionarItem(pedestre);
         }
     }
-    
+    */
+
+    public void colocarObstaculos(){
+        for(Item obs : obstaculos ){
+            mapa.removerItem(obs);
+            mapa.adicionarItem(obs);
+        }
+    }
+
+    public void colocarSemaforo(){
+        for(Semaforo sem : semaforos){
+            mapa.removerItem(sem);
+            mapa.adicionarItem(sem);
+        }
+    }
+
+    public void colocarPontos(){
+        for(Ponto p : pontos){
+            mapa.adicionarItem(p);
+            mapa.adicionarItem(p);
+        }
+    }
+
     private void esperar(int milisegundos){
         try{
             Thread.sleep(milisegundos);
@@ -184,6 +214,20 @@ public class Simulacao {
         }catch(InterruptedException e){
             System.out.println(e.getMessage());
         }
+    }
+
+    private void esperarNoPonto(int segundos){
+        try{
+            Thread.sleep(segundos);
+        }catch(InterruptedException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public int getAltura(){
+        return altura;
+    }
+    public int getLargura(){
+        return largura;
     }
     
 }

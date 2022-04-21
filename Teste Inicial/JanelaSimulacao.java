@@ -19,6 +19,7 @@ public class JanelaSimulacao extends JFrame{
         setVisible(true);
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
     }
     
     /**
@@ -115,7 +116,7 @@ public class JanelaSimulacao extends JFrame{
 
             g.setColor(Color.red);
             g.fillRect(0, 0, 50, 50);
-
+           
         }
     
         /**
@@ -123,6 +124,7 @@ public class JanelaSimulacao extends JFrame{
          */
         public void desenharImagem(int x, int y, Image image)
         {
+           
             g.drawImage(image, x * xScale + 1, y * yScale + 1,
                         xScale - 1, yScale - 1, this);
         }
