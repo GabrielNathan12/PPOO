@@ -117,6 +117,11 @@ public class JanelaSimulacao extends JFrame{
             g.setColor(Color.red);
             g.fillRect(0, 0, 50, 50);
            
+
+            g.setColor(Color.blue);
+            g.fillRect(1870, 1010, 50, 50);
+
+
         }
     
         /**

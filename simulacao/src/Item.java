@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 
 public abstract class  Item {
     private Image imagem;
-    private Localizacao localizacaoAtual;
+    protected Localizacao localizacaoAtual;
 
     public Item(Localizacao localizacao, String nomeImg) {
         this.localizacaoAtual = localizacao;

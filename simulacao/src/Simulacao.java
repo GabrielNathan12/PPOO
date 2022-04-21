@@ -2,21 +2,14 @@
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.swing.JOptionPane;
-
 /**
  * Responsavel pela simulacao.
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
 public class Simulacao {
-    private Veiculo veiculo;
-    private Veiculo veiculo2;
-    private Veiculo veiculo3;
-    private Veiculo veiculo4;
-
     private JanelaSimulacao janelaSimulacao;
     private Mapa mapa;
+    private ArrayList<Veiculo> veiculos;
     private ArrayList<Ponto> pontos;
     private ArrayList<Obstaculo> obstaculos;
     private ArrayList<Pedestre> pedestres;
@@ -33,36 +26,24 @@ public class Simulacao {
         largura = mapa.getLargura();
         altura = mapa.getAltura();
         
-        veiculo = new Veiculo(new Localizacao(0, 0));//Cria um veiculo em uma posicao aleatoria
-        veiculo2 = new Veiculo(new Localizacao(1, 1));
-        veiculo3 = new Veiculo(new Localizacao(2, 2));
-        veiculo4 = new Veiculo(new Localizacao(3, 3));
-
         pontos = new ArrayList<Ponto>();
         obstaculos = new ArrayList<Obstaculo>();
         pedestres = new ArrayList<Pedestre>();
         semaforos = new ArrayList<Semaforo>();
+        veiculos = new ArrayList<Veiculo>();
         
         instanciarPontosOnibus();
         intanciarObstaculos();
         instanciarSemaforos();
         intanciarPedrestre();
+        instanciaOnibus();
+        Veiculo.setSemaforos(semaforos);
 
-
-        veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());//Define a posicao destino aleatoriamente
-        veiculo2.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-        veiculo3.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-        veiculo4.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-
-        mapa.adicionarItem(veiculo);//Inicializando o mapa com o veículo
-        mapa.adicionarItem(veiculo2);
-        mapa.adicionarItem(veiculo3);
-        mapa.adicionarItem(veiculo4);
-        
-
+        Localizacao.setObstaculos(obstaculos);
         janelaSimulacao = new JanelaSimulacao(mapa);
+        
     }
-    
+
     public final void executarSimulacao(int numPassos){
         try{
             janelaSimulacao.executarAcao();
@@ -78,6 +59,16 @@ public class Simulacao {
                 esperar(300);
             }
         }       
+    }
+
+    private void instanciaOnibus() {
+        Veiculo onibus;
+        for (int i = 0; i < 4; i++) {
+            onibus = new Veiculo(new Localizacao(i, i));//Cria um veiculo em uma posicao aleatoria
+            onibus.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());//Define a posicao destino aleatoriamente
+            mapa.adicionarItem(onibus);//Inicializando o mapa com o veículo
+            veiculos.add(onibus);
+        }
     }
 
     private void intanciarPedrestre(){
@@ -125,84 +116,52 @@ public class Simulacao {
     }
 
     private void executarUmPasso() {
+        int cont = 1;
 
-        if (veiculo.comparePositionPos(pontos.get(pontoDestino-1))) {
-            mapa.adicionarItem(pontos.get(pontoDestino-1));
-        }
-        else
-        if (veiculo2.comparePositionPos(pontos.get(pontoDestino-1))) {
-            mapa.adicionarItem(pontos.get(pontoDestino-1));
-        }
-        else
-        if (veiculo3.comparePositionPos(pontos.get(pontoDestino-1))) {
-            mapa.adicionarItem(pontos.get(pontoDestino-1));
-            
-        }
-        else
-        if (veiculo4.comparePositionPos(pontos.get(pontoDestino-1))) {
-            mapa.adicionarItem(pontos.get(pontoDestino-1));
+        for (Veiculo onibus: veiculos) {
+            if (onibus.comparePositionPos(pontos.get(pontoDestino-1))) {
+                mapa.adicionarItem(pontos.get(pontoDestino-1));
+            }
 
+            boolean andando = onibus.executarAcao();
+
+            if (!andando) {
+                if (pontoDestino == pontos.size()) pontoDestino = 0;
+                onibus.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());      
+                gerarRelatorioDeRota(cont);
+            }
+
+            cont++;
+            mapa.adicionarItem(onibus);
         }
 
         for (Pedestre pedestre: pedestres) {
             pedestre.executarAcao();
         }
 
-        
-        boolean andando = veiculo.executarAcao();
-        boolean andando1 = veiculo2.executarAcao();
-        boolean andando2 = veiculo3.executarAcao();
-        boolean andando3 = veiculo4.executarAcao();
-
-        if (!andando) {
-            if (pontoDestino == pontos.size()) pontoDestino = 0;
-            veiculo.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            //veiculo.executarAcao();
-            
-        }
-        
-        if (!andando1) {
-            if (pontoDestino == pontos.size()) pontoDestino = 0;
-            veiculo2.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            //veiculo2.executarAcao();
-        }
-
-        if (!andando2) {
-            if (pontoDestino == pontos.size()) pontoDestino = 0;
-            veiculo3.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            //veiculo3.executarAcao();
-        }
-        
-        if (!andando3) {
-            if (pontoDestino == pontos.size()) pontoDestino = 0;
-            veiculo4.setLocalizacaoDestino(pontos.get(pontoDestino++).getLocalizacaoAtual());
-            //veiculo4.executarAcao();
-            
-        }
-
-        mapa.adicionarItem(veiculo);
-        mapa.adicionarItem(veiculo2);
-        mapa.adicionarItem(veiculo3);
-        mapa.adicionarItem(veiculo4);
-
     }
 
+    public void gerarRelatorioDeRota(int cont){
+        for(Veiculo v: veiculos){
+            System.out.println("Veiculos " + cont + " " + v);
+        }
+    }
 
-    public void colocarObstaculos(){
+    private void colocarObstaculos(){
         for(Obstaculo obs : obstaculos ){
             mapa.removerItem(obs);
             mapa.adicionarItem(obs);
         }
     }
 
-    public void colocarSemaforo(){
+    private void colocarSemaforo(){
         for(Semaforo sem : semaforos){
             mapa.removerItem(sem);
             mapa.adicionarItem(sem);
         }
     }
 
-    public void colocarPontos(){
+    private void colocarPontos(){
         for(Ponto p : pontos){
             mapa.adicionarItem(p);
             mapa.adicionarItem(p);
@@ -218,3 +177,4 @@ public class Simulacao {
     }
     
 }
+

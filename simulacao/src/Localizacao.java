@@ -1,5 +1,6 @@
 // package simulacao;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -10,6 +11,7 @@ public class Localizacao {
     private int x;
     private int y;
     private static Random rand = new Random();
+    private static int[][] obstaculos = new int[30][30];
     
     /**
      * Representa uma localização na cidade
@@ -19,7 +21,7 @@ public class Localizacao {
     public Localizacao(int x, int y) {
         this.x = x;
         this.y = y;
-        System.out.println(x + " " + y);
+      //  System.out.println(x + " " + y);
     }
 
     public int getX() {
@@ -44,16 +46,48 @@ public class Localizacao {
             int deslocX = x < destX ? 1 : x > destX ? -1 : 0;//Deslocamento de 1 ou 0 ou -1 posição em x
             int deslocY = y < destY ? 1 : y > destY ? -1 : 0;//Deslocamento de 1 ou 0 ou -1 posição em y
             Localizacao novaLocalizacao;
-            if(deslocX != 0 && deslocY != 0){//Se nenhuma coordenada coincide com a localizacao destino
-                if(rand.nextInt(2) == 0){//Atualizar x
-                    novaLocalizacao = new Localizacao(x + deslocX, y);
-                }else{//Atualizar y
-                    novaLocalizacao = new Localizacao(x, y + deslocY);
-                }
-            }else{
-                if(deslocX != 0) novaLocalizacao = new Localizacao(x + deslocX, y);
-                else novaLocalizacao = new Localizacao(x, y + deslocY);
+
+            int randdd = rand.nextInt(2);
+
+            if (randdd == 0 && deslocX != 0 && x+deslocX >= 0 && x+deslocX <= 29 && obstaculos[x+deslocX][y] != 1) {
+
+                novaLocalizacao = new Localizacao(x + deslocX, y);
+
+            } else if (deslocY != 0 && y+deslocY >= 0 && y+deslocY <= 29 && obstaculos[x][y+deslocY] != 1) {
+                
+                novaLocalizacao = new Localizacao(x, y + deslocY);
+
+            } else if (randdd == 1 && deslocX != 0 && x+deslocX >= 0 && x+deslocX <= 29 && obstaculos[x+deslocX][y] != 1) {
+
+                novaLocalizacao = new Localizacao(x + deslocX, y);
+
+            } else {
+
+                int aux, auxX, auxY;
+                do {
+                    aux = rand.nextInt(4);
+                    auxX = x;
+                    auxY = y;
+
+                    switch (aux) {
+                        case 0 :
+                            auxX = x+1;
+                            break;
+                        case 1 :
+                            auxX = x-1;
+                            break;
+                        case 2 :
+                            auxY = y+1;
+                            break;
+                        default :
+                            auxY = y-1;
+                            break;
+                    }
+                } while(auxX < 0 || auxY < 0 || auxX > 29 || auxY > 29 || obstaculos[auxX][auxY] == 1);
+                novaLocalizacao = new Localizacao(auxX, auxY);
+
             }
+
             return novaLocalizacao;
         }
     }
@@ -84,5 +118,12 @@ public class Localizacao {
         return "(" + x + ", " + y + ")";
     }
     
-    
+    public static void setObstaculos(ArrayList<Obstaculo> o) {
+        for (Obstaculo obstaculo: o) {
+            int x = obstaculo.getLocalizacaoAtual().getX();
+            int y = obstaculo.getLocalizacaoAtual().getY();
+
+            obstaculos[x][y] = 1;
+        }
+    }
 }
