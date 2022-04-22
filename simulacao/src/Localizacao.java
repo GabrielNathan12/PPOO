@@ -1,5 +1,3 @@
-// package simulacao;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,13 +19,20 @@ public class Localizacao {
     public Localizacao(int x, int y) {
         this.x = x;
         this.y = y;
-      //  System.out.println(x + " " + y);
     }
 
+    /**
+     * Método que retorna a localizacao X
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Método que retorna a localizacao Y
+     * @return
+     */
     public int getY() {
         return y;
     }
@@ -85,9 +90,7 @@ public class Localizacao {
                     }
                 } while(auxX < 0 || auxY < 0 || auxX > 29 || auxY > 29 || obstaculos[auxX][auxY] == 1);
                 novaLocalizacao = new Localizacao(auxX, auxY);
-
             }
-
             return novaLocalizacao;
         }
     }
@@ -110,6 +113,7 @@ public class Localizacao {
     }
     
     /**
+     * Método toString que retorna a representação da localizacao
      * @return A representacao da localizacao.
      */
     @Override

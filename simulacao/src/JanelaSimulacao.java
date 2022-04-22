@@ -1,5 +1,3 @@
-// package simulacao;
-//import javax.swing.ImageIcon;
 import java.awt.*;
 import javax.swing.*;
 
@@ -11,6 +9,11 @@ public class JanelaSimulacao extends JFrame{
     private Mapa mapa;
     private VisaoMapa visaoMapa;
     
+    /**
+     * Construtor da Classe JanelaSimulacao
+     * Cria a janela do simulador.
+     * @param mapa
+     */
     public JanelaSimulacao(Mapa mapa){
         this.mapa = mapa;
         visaoMapa = new VisaoMapa(mapa.getLargura(),mapa.getAltura());
@@ -39,6 +42,7 @@ public class JanelaSimulacao extends JFrame{
         }
         visaoMapa.repaint();
     }
+
     /**
      * Fornece uma visualizacao grafica do mapa. Esta eh 
      * uma classe interna que define os componentes da GUI.
@@ -81,7 +85,6 @@ public class JanelaSimulacao extends JFrame{
          * Prepara para um novo ciclo de exibicao. Uma vez que o componente
          * pode ser redimensionado, calcula o "fator de escala" novamente.
          */
-
         public void preparePaint()
         {   
             if(!tamanho.equals(getSize())) {  // se o tamanho mudou...
@@ -116,7 +119,6 @@ public class JanelaSimulacao extends JFrame{
 
             g.setColor(Color.red);
             g.fillRect(0, 0, 50, 50);
-           
 
             g.setColor(Color.blue);
             g.fillRect(1870, 1010, 50, 50);
@@ -129,7 +131,6 @@ public class JanelaSimulacao extends JFrame{
          */
         public void desenharImagem(int x, int y, Image image)
         {
-           
             g.drawImage(image, x * xScale + 1, y * yScale + 1,
                         xScale - 1, yScale - 1, this);
         }
@@ -138,12 +139,8 @@ public class JanelaSimulacao extends JFrame{
          * O componente VisaoMapa precisa ser reexibido. Copia a
          * imagem interna para a tela.
          */
- 
-        //ImageIcon fundo = new ImageIcon("Imagens/1042263.png");
-        //imagemMapa = fundo.getImage();
-
         public void paintComponent(Graphics g)
-       {   
+        {   
             super.paintComponent(g);
             Graphics2D  graficos = (Graphics2D)g;
 

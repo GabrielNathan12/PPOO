@@ -1,5 +1,3 @@
-// package simulacao;
-
 import java.util.ArrayList;
 import java.util.Random;
 /**
@@ -16,10 +14,12 @@ public class Simulacao {
     private ArrayList<Semaforo> semaforos;
 
     private Random rand;
-   // private int pontoDestino;
     private int largura;
     private int altura;
 
+    /**
+     * Construtor da classe Simulacao
+     */
     public Simulacao() {
         rand = new Random();
         mapa = new Mapa();
@@ -41,9 +41,12 @@ public class Simulacao {
 
         Localizacao.setObstaculos(obstaculos);
         janelaSimulacao = new JanelaSimulacao(mapa);
-       // gerarRelatorioDeRota();
     }
 
+    /**
+     * Método que executa a Simulação
+     * @param numPassos
+     */
     public final void executarSimulacao(int numPassos){
         try{
             janelaSimulacao.executarAcao();
@@ -61,6 +64,9 @@ public class Simulacao {
         }       
     }
 
+    /**
+     * Método para criar os ônibus em uma posição aleatõria, definir a posicao destino aleatoriamente,  e inicializá-los no mapa da simulação.
+     */
     private void instanciaOnibus() {
         Veiculo onibus;
         for (int i = 0; i < 4; i++) {
@@ -72,6 +78,9 @@ public class Simulacao {
         
     }
 
+    /**
+     * Método para criar os pedestres e inicializá-los no mapa da simulação.
+     */
     private void intanciarPedrestre(){
 
         for (int x = 0; x < 5; x++) {
@@ -86,6 +95,9 @@ public class Simulacao {
     
     }
 
+    /**
+     * Método para criar os pontos de ônibus e inicializa-los no mapa da simulação.
+     */
     private void instanciarPontosOnibus(){
         for (int x = 0; x < 8; x++) {
             Ponto ponto = new Ponto(
@@ -96,6 +108,9 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Método para criar os obstáculos (obras) e inicializa-los no mapa da simulação.
+     */
     private void intanciarObstaculos(){
         int auxX;
         int auxY;
@@ -113,6 +128,9 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Método para criar os semáforos e inicializa-los no mapa da simulação.
+     */
     private void instanciarSemaforos(){
         int auxX;
         int auxY;
@@ -132,6 +150,9 @@ public class Simulacao {
         
     }
 
+    /**
+     * Método para executar um passo na simulação.
+     */
     private void executarUmPasso() {
         int pontoDestino;
         
@@ -144,7 +165,7 @@ public class Simulacao {
             boolean andando = onibus.executarAcao();
 
             if (!andando) {
-               if (pontoDestino == pontos.size()) pontoDestino = 0;
+                if (pontoDestino == pontos.size()) pontoDestino = 0;
                 if (onibus.getContadorPontosPassados() >= pontos.size() * 3) {
                     onibus.setPontoDestino(pontoDestino + 1);
                     onibus.setLocalizacaoDestino(new Localizacao(29, 29));
@@ -164,6 +185,9 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Método para gerar um relatório impresso na tela das informações sobre a rota percorrida pelo ônibus na simulação.
+     */
     public void gerarRelatorioDeRota(){
         for(Veiculo v: veiculos){
             System.out.println("Veiculos " + v.toString());
@@ -182,6 +206,9 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Método que adiciona os obstaculos no mapa da simulação.
+     */
     private void colocarObstaculos(){
         for(Obstaculo obs : obstaculos ){
             mapa.removerItem(obs);
@@ -189,6 +216,9 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Método que adiciona os semáforos no mapa da simulação.
+     */
     private void colocarSemaforo(){
         for(Semaforo sem : semaforos){
             mapa.removerItem(sem);
@@ -196,6 +226,9 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Método que adiciona os pontos de ônibus no mapa da simulação.
+     */
     private void colocarPontos(){
         for(Ponto p : pontos){
             mapa.adicionarItem(p);
@@ -203,6 +236,10 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Método que implementa a função sleep da classe Thread, para desacelerar os passos.
+     * @param milisegundos
+     */
     private void esperar(int milisegundos){
         try{
             Thread.sleep(milisegundos);

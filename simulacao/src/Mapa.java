@@ -1,6 +1,3 @@
-
-// package simulacao;
-
 /**
  * Representa um mapa com todos os itens que participam da simulacao
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
@@ -29,28 +26,55 @@ public class Mapa {
     public Mapa(){
         this(LARGURA_PADRAO,ALTURA_PADRAO);
     }
-    
+
+    /**
+     * Método para adicionar itens no mapa.
+     * @param v
+     */
     public void adicionarItem(Item v){
         itens[v.getLocalizacaoAtual().getX()][v.getLocalizacaoAtual().getY()] = v;
     }
     
+    /**
+     * Método para remover itens do mapa.
+     * @param v
+     */
     public void removerItem(Item v){
         itens[v.getLocalizacaoAtual().getX()][v.getLocalizacaoAtual().getY()] = null;
     }
     
+    /**
+     * Método para efetuar a atualização do Mapa.
+     * Remove e adiciona itens do mapa para representar a movimentação
+     * @param v
+     */
     public void atualizarMapa(Item v){
         removerItem(v);
         adicionarItem(v);
     }
     
+    /**
+     * Método para retornar um item
+     * @param x
+     * @param y
+     * @return itens
+     */
     public Item getItem(int x, int y){
         return itens[x][y];
     }
 
+    /**
+     * Método para retornar a largura da área
+     * @return largura da area de simulacao
+     */
     public int getLargura() {
         return largura;
     }
 
+    /**
+     * Método para retornar a altura da área
+     * @return altura da area de simulacao
+     */
     public int getAltura() {
         return altura;
     }
